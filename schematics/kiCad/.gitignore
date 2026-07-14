@@ -1,2 +1,4 @@
 blinky-cube-backups/*
+.history/*
+*.lck
 
