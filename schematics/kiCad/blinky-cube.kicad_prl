@@ -1,8 +1,8 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 25,
     "active_layer_preset": "",
-    "auto_track_width": false,
+    "auto_track_width": true,
     "hidden_netclasses": [],
     "hidden_nets": [],
     "high_contrast_mode": 0,
@@ -32,12 +32,11 @@
     },
     "visible_items": [
       "vias",
+      "footprint_text",
       "footprint_anchors",
       "ratsnest",
-      "grid",
       "footprints_front",
       "footprints_back",
-      "footprint_values",
       "footprint_references",
       "tracks",
       "drc_errors",
@@ -53,6 +52,7 @@
   },
   "git": {
     "integration_disabled": false,
+    "repo_password": "",
     "repo_type": "",
     "repo_username": "",
     "ssh_key": ""
