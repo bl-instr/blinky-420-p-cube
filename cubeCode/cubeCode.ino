@@ -2,7 +2,6 @@
 #define CUBE_DIAG          0
 #define COMM_LED_PIN       2
 #define RST_BUTTON_PIN     3
-#define COND_MULT         10.0
 #include <BlinkyPicoW.h>
 
 struct CubeSetting
@@ -16,7 +15,6 @@ struct CubeReading
 {
   uint16_t signal1;
   uint16_t signal2;
-  uint16_t signal3;
   uint16_t bandWidth;
 };
 CubeReading reading;
@@ -24,7 +22,6 @@ CubeReading reading;
 unsigned long lastPublishTime;
 float signal1;
 float signal2;
-float signal3;
 int digCount;
 
 void setupBlinky()
@@ -50,21 +47,18 @@ void setupCube()
   analogReadResolution(12);
   reading.signal1 = 0;
   reading.signal2 = 0;
-  reading.signal3 = 0;
 
   delay(100);
-  signal1 = (float) analogRead(A2);
+  signal1 = (float) analogRead(A0);
   signal2 = (float) analogRead(A1);
-  signal3 = (float) analogRead(A0);
   digCount = 1;
 }
 
 void loopCube()
 {
   unsigned long now = millis();
-  signal1 = signal1 +(((float) analogRead(A2)) - signal1) / ((float) setting.nsamples);
+  signal1 = signal1 +(((float) analogRead(A0)) - signal1) / ((float) setting.nsamples);
   signal2 = signal2 +(((float) analogRead(A1)) - signal2) / ((float) setting.nsamples);
-  signal3 = signal3 +(((float) analogRead(A0)) - signal3) / ((float) setting.nsamples);
   ++digCount;
 
   if ((now - lastPublishTime) > setting.publishInterval)
@@ -75,15 +69,12 @@ void loopCube()
     
     reading.signal1 = (uint16_t) signal1;
     reading.signal2 = (uint16_t) signal2;
-    reading.signal3 = (uint16_t) signal3;
     if (CUBE_DIAG > 0)
     {
       Serial.print("Signals: ");
       Serial.print(reading.signal1);
       Serial.print(", ");
-      Serial.print(reading.signal2);
-      Serial.print(", ");
-      Serial.println(reading.signal3);
+      Serial.println(reading.signal2);
     }
     
     lastPublishTime = now;
@@ -96,7 +87,6 @@ void loopCube()
     if (setting.nsamples < 1) setting.nsamples = 1;
     signal1 = (float) analogRead(A0);
     signal2 = (float) analogRead(A1);
-    signal3 = (float) analogRead(A2);
   }
 
 
